@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "gcp-predeploy": "find ./build -name '[...*' -exec bash -c 'mv \"$1\" \"${1/.../@@@}\"' -- {} \\;",
+    "gcp-build": "find ./build -name '[@@@*' -exec bash -c 'mv \"$1\" \"${1/@@@/...}\"' -- {} \\;",
     "dev": "next dev",
-    "build": "REPLICATE_API_TOKEN=test-token next build",
-    "start": "next start",
+    "build": "cross-env NODE_ENV=production REPLICATE_API_TOKEN=test-token next build",
+    "build-win": "rimraf ./build && cross-env NODE_ENV=production REPLICATE_API_TOKEN=test-token next build",
+    "start": "next start -p 8080",
+    "deploy": "npm-run-all build deploy-app",
+    "deploy-app": "gcloud app deploy",
     "lint": "next lint",
-    "test": "REPLICATE_API_TOKEN=test-token npm run lint && npm run build"
+    "test": "cross-env REPLICATE_API_TOKEN=test-token npm-run-all lint build"
   },
   "dependencies": {
     "@bytescale/upload-widget-react": "^4.10.0",
@@ -27,6 +32,8 @@
   "devDependencies": {
     "@tailwindcss/forms": "^0.5.4",
     "autoprefixer": "^10.4.15",
+    "cross-env": "^7.0.3",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.4.21",
     "tailwindcss": "^3.3.2"
   }
