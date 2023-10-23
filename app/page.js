@@ -5,6 +5,7 @@ import ChatForm from "./components/ChatForm";
 import Message from "./components/Message";
 import SlideOver from "./components/SlideOver";
 import EmptyState from "./components/EmptyState";
+import useLocalStorage from "./hooks/useLocalStorage";
 import { Cog6ToothIcon, CodeBracketIcon } from "@heroicons/react/20/solid";
 import { useCompletion } from "ai/react";
 import { Toaster, toast } from "react-hot-toast";
@@ -44,13 +45,14 @@ export default function HomePage() {
   const [error, setError] = useState(null);
 
   //   Llama params
-  const [size, setSize] = useState(VERSIONS[2]); // default to 70B
-  const [systemPrompt, setSystemPrompt] = useState(
+  const [size, setSize] = useLocalStorage("size", VERSIONS[2]); // default to 70B
+  const [systemPrompt, setSystemPrompt] = useLocalStorage(
+    "systemPrompt",
     "You are a helpful assistant."
   );
-  const [temp, setTemp] = useState(0.75);
-  const [topP, setTopP] = useState(0.9);
-  const [maxTokens, setMaxTokens] = useState(800);
+  const [temp, setTemp] = useLocalStorage("temp", 0.75);
+  const [topP, setTopP] = useLocalStorage("topP", 0.9);
+  const [maxTokens, setMaxTokens] = useLocalStorage("maxTokens", 800);
 
   const [image, setImage] = useState(null);
 
@@ -143,56 +145,56 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="bg-slate-100 border-b-2 text-center p-3">
+      <div className='bg-slate-100 border-b-2 text-center p-3'>
         Powered by Replicate.{" "}
         <a
-          href="https://replicate.com/blog/run-llama-2-with-an-api?utm_source=project&utm_campaign=llama2ai"
-          target="_blank"
-          className="underline"
+          href='https://replicate.com/blog/run-llama-2-with-an-api?utm_source=project&utm_campaign=llama2ai'
+          target='_blank'
+          className='underline'
         >
           Run and fine-tune Llama 2 in the cloud.
         </a>
       </div>
-      <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
-        <div className="hidden sm:inline-block"></div>
-        <div className="font-semibold text-gray-500 sm:text-center">
-          🦙 <span className="hidden sm:inline-block">Chat with</span>{" "}
+      <nav className='grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0'>
+        <div className='hidden sm:inline-block'></div>
+        <div className='font-semibold text-gray-500 sm:text-center'>
+          🦙 <span className='hidden sm:inline-block'>Chat with</span>{" "}
           <button
-            className="py-2 font-semibold text-gray-500 hover:underline"
+            className='py-2 font-semibold text-gray-500 hover:underline'
             onClick={() => setOpen(true)}
           >
             {size.shortened == "Llava" ? "Llava" : "Llama 2 " + size.shortened}
           </button>
         </div>
-        <div className="flex justify-end">
+        <div className='flex justify-end'>
           <a
-            className="inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-700 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-            href="https://github.com/replicate/chat"
+            className='inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-700 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+            href='https://github.com/replicate/chat'
           >
             <CodeBracketIcon
-              className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
-              aria-hidden="true"
+              className='w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900'
+              aria-hidden='true'
             />{" "}
-            <span className="hidden sm:inline">Clone on GitHub</span>
+            <span className='hidden sm:inline'>Clone on GitHub</span>
           </a>
           <button
-            type="button"
-            className="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+            type='button'
+            className='inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
             onClick={() => setOpen(true)}
           >
             <Cog6ToothIcon
-              className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
-              aria-hidden="true"
+              className='w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900'
+              aria-hidden='true'
             />{" "}
-            <span className="hidden sm:inline">Settings</span>
+            <span className='hidden sm:inline'>Settings</span>
           </button>
         </div>
       </nav>
 
-      <Toaster position="top-left" reverseOrder={false} />
+      <Toaster position='top-left' reverseOrder={false} />
 
-      <main className="max-w-2xl pb-5 mx-auto mt-4 sm:px-4">
-        <div className="text-center"></div>
+      <main className='max-w-2xl pb-5 mx-auto mt-4 sm:px-4'>
+        <div className='text-center'></div>
         {messages.length == 0 && !image && (
           <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
         )}
@@ -216,7 +218,7 @@ export default function HomePage() {
 
         {image && (
           <div>
-            <img src={image} className="mt-6 sm:rounded-xl" />
+            <img src={image} className='mt-6 sm:rounded-xl' />
           </div>
         )}
 
@@ -229,7 +231,7 @@ export default function HomePage() {
 
         {error && <div>{error}</div>}
 
-        <article className="pb-24">
+        <article className='pb-24'>
           {messages.map((message, index) => (
             <Message
               key={`message-${index}`}
