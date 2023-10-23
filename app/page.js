@@ -20,16 +20,16 @@ const VERSIONS = [
     version: "d24902e3fa9b698cc208b5e63136c4e26e828659a9f09827ca6ec5bb83014381",
     shortened: "7B",
   },
-  {
-    name: "Llama 2 13B",
-    version: "9dff94b1bed5af738655d4a7cbcdcde2bd503aa85c94334fe1f42af7f3dd5ee3",
-    shortened: "13B",
-  },
-  {
-    name: "Llama 2 70B",
-    version: "2796ee9483c3fd7aa2e171d38f4ca12251a30609463dcfd4cd76703f22e96cdf",
-    shortened: "70B",
-  },
+  // {
+  //   name: "Llama 2 13B",
+  //   version: "9dff94b1bed5af738655d4a7cbcdcde2bd503aa85c94334fe1f42af7f3dd5ee3",
+  //   shortened: "13B",
+  // },
+  // {
+  //   name: "Llama 2 70B",
+  //   version: "2796ee9483c3fd7aa2e171d38f4ca12251a30609463dcfd4cd76703f22e96cdf",
+  //   shortened: "70B",
+  // },
   // {
   //   name: "Llava 13B",
   //   version: "6bc1c7bb0d2a34e413301fee8f7cc728d2d4e75bfab186aa995f63292bda92fc",
@@ -45,7 +45,7 @@ export default function HomePage() {
   const [error, setError] = useState(null);
 
   //   Llama params
-  const [size, setSize] = useLocalStorage("size", VERSIONS[2]); // default to 70B
+  const [size, setSize] = useLocalStorage("size", VERSIONS[0]); // default to 70B
   const [systemPrompt, setSystemPrompt] = useLocalStorage(
     "systemPrompt",
     "You are a helpful assistant."
