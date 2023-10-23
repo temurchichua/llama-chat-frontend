@@ -6,7 +6,7 @@
     "gcp-predeploy": "find ./build -name '[...*' -exec bash -c 'mv \"$1\" \"${1/.../@@@}\"' -- {} \\;",
     "gcp-build": "find ./build -name '[@@@*' -exec bash -c 'mv \"$1\" \"${1/@@@/...}\"' -- {} \\;",
     "dev": "next dev",
-    "build": "cross-env NODE_ENV=production REPLICATE_API_TOKEN=test-token next build",
+    "build": "cross-env NODE_ENV=production REPLICATE_API_TOKEN=r8_081ebVkNObVJC0eWjVZn8WjNdwk2GUv2uZImi next build",
     "build-win": "rimraf ./build && cross-env NODE_ENV=production REPLICATE_API_TOKEN=test-token next build",
     "start": "next start -p 8080",
     "deploy": "npm-run-all build deploy-app",

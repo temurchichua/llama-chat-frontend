@@ -51,20 +51,20 @@ const ChatForm = ({ prompt, setPrompt, onSubmit, handleImageUpload }) => {
     <footer className="z-10 fixed bottom-0 left-0 right-0 bg-slate-100 border-t-2">
       <div className="container max-w-2xl mx-auto p-5 pb-8">
         <form className="w-full flex" onSubmit={handleSubmit}>
-          <UploadButton
-            uploader={uploader}
-            options={options}
-            onComplete={(files) => handleImageUpload(files[0])}
-          >
-            {({ onClick }) => (
-              <button
-                className="p-3 border-gray-600 border-2 inline-flex hover:bg-gray-300 rounded-md mr-3"
-                onClick={onClick}
-              >
-                Upload
-              </button>
-            )}
-          </UploadButton>
+          {/*<UploadButton*/}
+          {/*  uploader={uploader}*/}
+          {/*  options={options}*/}
+          {/*  onComplete={(files) => handleImageUpload(files[0])}*/}
+          {/*>*/}
+          {/*  {({ onClick }) => (*/}
+          {/*    <button*/}
+          {/*      className="p-3 border-gray-600 border-2 inline-flex hover:bg-gray-300 rounded-md mr-3"*/}
+          {/*      onClick={onClick}*/}
+          {/*    >*/}
+          {/*      Upload*/}
+          {/*    </button>*/}
+          {/*  )}*/}
+          {/*</UploadButton>*/}
           <textarea
             autoComplete="off"
             autoFocus
