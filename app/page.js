@@ -158,21 +158,21 @@ function HomePage() {
 
   return (
     <>
-      <div className='bg-slate-100 border-b-2 text-center p-3'>
+      <div className="bg-slate-100 border-b-2 text-center p-3">
         Powered by ✨
         <a
-          href='https://www.animachatbotics.com/'
-          target='_blank'
-          className='underline'
+          href="https://www.animachatbotics.com/"
+          target="_blank"
+          className="underline"
         >
           AnimaChatbotics
         </a>
         ✨
       </div>
-      <nav className='grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0'>
-        <div className='hidden sm:inline-block'></div>
-        <div className='font-semibold text-gray-500 sm:text-center'>
-          <span className='hidden sm:inline-block'>Chat with Tbilisi</span>{" "}
+      <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
+        <div className="hidden sm:inline-block"></div>
+        <div className="font-semibold text-gray-500 sm:text-center">
+          <span className="hidden sm:inline-block">Chat with Tbilisi</span>{" "}
           {/*<button*/}
           {/*  className='py-2 font-semibold text-gray-500 hover:underline'*/}
           {/*  onClick={() => setOpen(true)}*/}
@@ -180,25 +180,25 @@ function HomePage() {
           {/*  {size.shortened == "Llava" ? "Llava" : "Llama 2 " + size.shortened}*/}
           {/*</button>*/}
         </div>
-        <div className='flex justify-end'>
+        <div className="flex justify-end">
           <button
-            type='button'
-            className='inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50'
+            type="button"
+            className="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
             onClick={() => setOpen(true)}
           >
             <Cog6ToothIcon
-              className='w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900'
-              aria-hidden='true'
+              className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
+              aria-hidden="true"
             />{" "}
-            <span className='hidden sm:inline'>Settings</span>
+            <span className="hidden sm:inline">Settings</span>
           </button>
         </div>
       </nav>
 
-      <Toaster position='top-left' reverseOrder={false} />
+      <Toaster position="top-left" reverseOrder={false} />
 
-      <main className='max-w-2xl pb-5 mx-auto mt-4 sm:px-4'>
-        <div className='text-center'></div>
+      <main className="max-w-2xl pb-5 mx-auto mt-4 sm:px-4">
+        <div className="text-center"></div>
         {messages.length == 0 && !image && (
           <EmptyState setPrompt={setAndSubmitPrompt} setOpen={setOpen} />
         )}
@@ -222,7 +222,7 @@ function HomePage() {
 
         {image && (
           <div>
-            <img src={image} className='mt-6 sm:rounded-xl' />
+            <img src={image} className="mt-6 sm:rounded-xl" />
           </div>
         )}
 
@@ -235,7 +235,7 @@ function HomePage() {
 
         {error && <div>{error}</div>}
 
-        <article className='pb-24'>
+        <article className="pb-24">
           {messages.map((message, index) => (
             <Message
               key={`message-${index}`}
@@ -243,7 +243,6 @@ function HomePage() {
               isUser={message.isUser}
             />
           ))}
-          <Message message={completion} isUser={false} />
           <div ref={bottomRef} />
         </article>
       </main>
