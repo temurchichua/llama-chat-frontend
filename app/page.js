@@ -58,6 +58,12 @@ function HomePage() {
 
   const [image, setImage] = useState(null);
 
+  //Clear Messages
+  const handleClearMessages = () => {
+    setMessages([]);
+    localStorage.removeItem("messages");
+  };
+
   const { complete, completion, setInput, input } = useCompletion({
     api: "/api",
     body: {
@@ -133,7 +139,6 @@ function HomePage() {
 
   useEffect(() => {
     if (completion) {
-      console.log("Completion updated:", completion);
       setMessages((prevMessages) => {
         const newMessages = [...prevMessages];
         const lastMessage = newMessages[newMessages.length - 1];
@@ -181,6 +186,15 @@ function HomePage() {
           {/*</button>*/}
         </div>
         <div className="flex justify-end">
+          {messages.length > 0 && (
+            <button
+              type="button"
+              className="inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              onClick={handleClearMessages}
+            >
+              <span className="hidden sm:inline">Clear</span>
+            </button>
+          )}
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -189,7 +203,7 @@ function HomePage() {
             <Cog6ToothIcon
               className="w-5 h-5 text-gray-500 sm:mr-2 group-hover:text-gray-900"
               aria-hidden="true"
-            />{" "}
+            />
             <span className="hidden sm:inline">Settings</span>
           </button>
         </div>
