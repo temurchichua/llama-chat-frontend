@@ -186,15 +186,21 @@ function HomePage() {
           {/*</button>*/}
         </div>
         <div className="flex justify-end">
-          {messages.length > 0 && (
-            <button
-              type="button"
-              className="inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-              onClick={handleClearMessages}
+          {
+            <div
+              className={`inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ${
+                messages.length > 0 ? "opacity-100" : "opacity-0"
+              } transition-opacity duration-300`}
             >
-              <span className="hidden sm:inline">Clear</span>
-            </button>
-          )}
+              <button
+                type="button"
+                onClick={handleClearMessages}
+                disabled={messages.length === 0}
+              >
+                <span className="hidden sm:inline">Clear</span>
+              </button>
+            </div>
+          }
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
