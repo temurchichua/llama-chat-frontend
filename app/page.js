@@ -10,6 +10,7 @@ import { Cog6ToothIcon, CodeBracketIcon } from "@heroicons/react/20/solid";
 import { useCompletion } from "ai/react";
 import { Toaster, toast } from "react-hot-toast";
 import dynamic from "next/dynamic";
+import ResponseLoader from "./components/ResponseLoader";
 
 function approximateTokenCount(text) {
   return Math.ceil(text.length * 0.4);
@@ -21,11 +22,11 @@ const VERSIONS = [
     version: "d24902e3fa9b698cc208b5e63136c4e26e828659a9f09827ca6ec5bb83014381",
     shortened: "7B",
   },
-  // {
-  //   name: "Llama 2 13B",
-  //   version: "9dff94b1bed5af738655d4a7cbcdcde2bd503aa85c94334fe1f42af7f3dd5ee3",
-  //   shortened: "13B",
-  // },
+  {
+    name: "Llama 2 13B",
+    version: "9dff94b1bed5af738655d4a7cbcdcde2bd503aa85c94334fe1f42af7f3dd5ee3",
+    shortened: "13B",
+  },
   // {
   //   name: "Llama 2 70B",
   //   version: "2796ee9483c3fd7aa2e171d38f4ca12251a30609463dcfd4cd76703f22e96cdf",
@@ -39,6 +40,12 @@ const VERSIONS = [
 ];
 
 function HomePage() {
+  const PromptMessages = {
+    User: "You are a helpful assistant",
+    Nika: "You are a friendly assistant",
+    Giorgi: "You are a Angry assistant",
+  };
+
   const MAX_TOKENS = 4096;
   const bottomRef = useRef(null);
   const [messages, setMessages] = useLocalStorage("messages", []);
@@ -47,11 +54,18 @@ function HomePage() {
   const [error, setError] = useState(null);
 
   //   Llama params
+
   const [size, setSize] = useLocalStorage("size", VERSIONS[0]); // default to 70B
   const [systemPrompt, setSystemPrompt] = useLocalStorage(
     "systemPrompt",
     "You are a helpful assistant."
   );
+
+  const [selectedUser, setSelectedUser] = useState("User");
+  useEffect(() => {
+    setSystemPrompt(PromptMessages[selectedUser]);
+  }, [selectedUser, setSystemPrompt]);
+
   const [temp, setTemp] = useLocalStorage("temp", 0.75);
   const [topP, setTopP] = useLocalStorage("topP", 0.9);
   const [maxTokens, setMaxTokens] = useLocalStorage("maxTokens", 800);
@@ -59,12 +73,16 @@ function HomePage() {
   const [image, setImage] = useState(null);
 
   //Clear Messages
+
   const handleClearMessages = () => {
+    // Clear messages from state
     setMessages([]);
+
+    // Clear messages from local storage
     localStorage.removeItem("messages");
   };
 
-  const { complete, completion, setInput, input } = useCompletion({
+  const { complete, completion, setInput, isLoading, input } = useCompletion({
     api: "/api",
     body: {
       version: size.version,
@@ -177,7 +195,7 @@ function HomePage() {
       <nav className="grid grid-cols-2 pt-3 pl-6 pr-3 sm:grid-cols-3 sm:pl-0">
         <div className="hidden sm:inline-block"></div>
         <div className="font-semibold text-gray-500 sm:text-center">
-          <span className="hidden sm:inline-block">Chat with Tbilisi</span>{" "}
+          <span className="hidden sm:inline-block">Chat with Tbilisi</span>
           {/*<button*/}
           {/*  className='py-2 font-semibold text-gray-500 hover:underline'*/}
           {/*  onClick={() => setOpen(true)}*/}
@@ -186,21 +204,15 @@ function HomePage() {
           {/*</button>*/}
         </div>
         <div className="flex justify-end">
-          {
-            <div
-              className={`inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 ${
-                messages.length > 0 ? "opacity-100" : "opacity-0"
-              } transition-opacity duration-300`}
+          {messages.length > 0 && (
+            <button
+              type="button"
+              className="inline-flex items-center px-3 py-2 mr-3 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+              onClick={handleClearMessages}
             >
-              <button
-                type="button"
-                onClick={handleClearMessages}
-                disabled={messages.length === 0}
-              >
-                <span className="hidden sm:inline">Clear</span>
-              </button>
-            </div>
-          }
+              <span className="hidden sm:inline">Clear</span>
+            </button>
+          )}
           <button
             type="button"
             className="inline-flex items-center px-3 py-2 text-sm font-semibold text-gray-900 bg-white rounded-md shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
@@ -228,6 +240,9 @@ function HomePage() {
           setOpen={setOpen}
           systemPrompt={systemPrompt}
           setSystemPrompt={setSystemPrompt}
+          PromptMessages={PromptMessages}
+          selectedUser={selectedUser}
+          setSelectedUser={setSelectedUser}
           handleSubmit={handleSettingsSubmit}
           temp={temp}
           setTemp={setTemp}
@@ -264,6 +279,14 @@ function HomePage() {
             />
           ))}
           <div ref={bottomRef} />
+          {isLoading && !completion.length && (
+            <div className="flex gap-4 p-5 rounded-md bg-gray-50">
+              <span className="text-xl sm:text-2xl" title="AI">
+                🦙
+              </span>
+              <ResponseLoader />
+            </div>
+          )}
         </article>
       </main>
     </>

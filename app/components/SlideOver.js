@@ -11,6 +11,9 @@ export default function SlideOver({
   setOpen,
   systemPrompt,
   setSystemPrompt,
+  PromptMessages,
+  selectedUser,
+  setSelectedUser,
   temp,
   setTemp,
   topP,
@@ -179,8 +182,87 @@ export default function SlideOver({
                                   onChange={(e) =>
                                     setSystemPrompt(e.target.value)
                                   }
+                                  disabled={selectedUser !== "User"}
                                 />
                               </div>
+                            </div>
+                            <div className="mt-3">
+                              <label
+                                htmlFor="user-select"
+                                className="block font-bold text-sm leading-6 text-gray-900"
+                              >
+                                Choose a user:
+                              </label>
+                              <Listbox
+                                value={selectedUser}
+                                onChange={setSelectedUser}
+                              >
+                                {({ open }) => (
+                                  <>
+                                    <Listbox.Button
+                                      id="user-select"
+                                      className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
+                                    >
+                                      <span className="block truncate">
+                                        {selectedUser}
+                                      </span>
+                                      <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                        <ChevronUpDownIcon
+                                          className="h-5 w-5 text-gray-400"
+                                          aria-hidden="true"
+                                        />
+                                      </span>
+                                    </Listbox.Button>
+                                    <Transition
+                                      show={open}
+                                      as={Fragment}
+                                      leave="transition ease-in duration-100"
+                                      leaveFrom="opacity-100"
+                                      leaveTo="opacity-0"
+                                    >
+                                      <Listbox.Options className="absolute mt-1 max-h-60 w-full shadow-md overflow-auto border-gray-700 rounded-md bg-white py-1 text-base ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                                        {Object.keys(PromptMessages).map(
+                                          (user) => (
+                                            <Listbox.Option
+                                              key={user}
+                                              value={user}
+                                              className={({ active }) =>
+                                                `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                                                  active
+                                                    ? "bg-gray-100 text-gray-900"
+                                                    : "text-gray-900"
+                                                }`
+                                              }
+                                            >
+                                              {({ selected }) => (
+                                                <>
+                                                  <span
+                                                    className={`block truncate ${
+                                                      selected
+                                                        ? "font-medium"
+                                                        : "font-normal"
+                                                    }`}
+                                                  >
+                                                    {user}
+                                                  </span>
+                                                  {selected ? (
+                                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-gray-600">
+                                                      <CheckIcon
+                                                        className="h-5 w-5"
+                                                        aria-hidden="true"
+                                                      />
+                                                    </span>
+                                                  ) : null}
+                                                </>
+                                              )}
+                                            </Listbox.Option>
+                                          )
+                                        )}
+                                      </Listbox.Options>
+                                    </Transition>
+                                  </>
+                                )}
+                              </Listbox>
                             </div>
                           </div>
                           <div className="space-y-6 pb-5 pt-6">
