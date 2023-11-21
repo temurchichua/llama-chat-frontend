@@ -198,7 +198,7 @@ export default function SlideOver({
                                 onChange={setSelectedUser}
                               >
                                 {({ open }) => (
-                                  <>
+                                  <div className="mt-1 relative">
                                     <Listbox.Button
                                       id="user-select"
                                       className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left border border-gray-300 focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm"
@@ -260,7 +260,7 @@ export default function SlideOver({
                                         )}
                                       </Listbox.Options>
                                     </Transition>
-                                  </>
+                                  </div>
                                 )}
                               </Listbox>
                             </div>
